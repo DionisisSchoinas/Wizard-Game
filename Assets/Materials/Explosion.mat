@@ -111,12 +111,12 @@ Material:
     - _flip: 0
     - _pow: 1
     m_Colors:
-    - _BaseColor: {r: 47.937256, g: 29.113726, b: 14.305882, a: 1}
+    - _BaseColor: {r: 0.7490196, g: 0.49610537, b: 0.22352941, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 47.937256, g: 29.113726, b: 14.305882, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 4.237095, g: 1.5750457, b: 0.1552862, a: 1}
+    - _EmissionColor: {r: 6.4222345, g: 2.5338495, b: 0.23536994, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0.5, b: 0, a: 0}
 --- !u!114 &3562507600711875160
 MonoBehaviour:

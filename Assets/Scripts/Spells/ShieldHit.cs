@@ -9,7 +9,7 @@ public class ShieldHit : MonoBehaviour
     [SerializeField]
     private Vector3 hitShapeChangeOnHit;
     [SerializeField]
-    private float hitDisturbanceRateeOnHit;
+    private float hitDisturbanceRateOnHit;
     [SerializeField]
     private float hitDisturbanceDurationeOnHit;
     [SerializeField]
@@ -23,21 +23,27 @@ public class ShieldHit : MonoBehaviour
     private void Start()
     {
         ResetMaterial();
+        Physics.IgnoreLayerCollision(0, 8);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Projectile"))
         {
-            if (randomShapeChangeOnHit)
-                randomizedHitShape = new Vector3(Random.Range(0.01f, hitShapeChangeOnHit.x), Random.Range(0.01f, hitShapeChangeOnHit.y), Random.Range(0.01f, hitShapeChangeOnHit.z));
-            else
-                randomizedHitShape = hitShapeChangeOnHit;
-            
-            idleMaterial.SetFloat("_VertexOffsetFrequency", hitDisturbanceRateeOnHit);
-            idleMaterial.SetVector("_VertexOffsetDirection", randomizedHitShape);
-            Invoke(nameof(ResetMaterial), hitDisturbanceDurationeOnHit);
+            Damaged();
         }
+    }
+
+    public void Damaged()
+    {
+        if (randomShapeChangeOnHit)
+            randomizedHitShape = new Vector3(Random.Range(0.01f, hitShapeChangeOnHit.x), Random.Range(0.01f, hitShapeChangeOnHit.y), Random.Range(0.01f, hitShapeChangeOnHit.z));
+        else
+            randomizedHitShape = hitShapeChangeOnHit;
+
+        idleMaterial.SetFloat("_VertexOffsetFrequency", hitDisturbanceRateOnHit);
+        idleMaterial.SetVector("_VertexOffsetDirection", randomizedHitShape);
+        Invoke(nameof(ResetMaterial), hitDisturbanceDurationeOnHit);
     }
 
     void ResetMaterial()
