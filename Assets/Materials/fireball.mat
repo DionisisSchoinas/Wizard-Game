@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fireball
+  m_Name: fireball
   m_Shader: {fileID: -6465566751694194690, guid: ac1a4d4006acafb4aaf91480b61b1a93,
     type: 3}
   m_ShaderKeywords: 
@@ -38,7 +38,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_CB06C2DB:
-        m_Texture: {fileID: 2800000, guid: 3306c33d592bee140a52099c1882241a, type: 3}
+        m_Texture: {fileID: 2800000, guid: b9e80bb2dd1589c4fae8e3149c06a34b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
