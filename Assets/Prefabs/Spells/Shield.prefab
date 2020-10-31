@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2444679711823338755}
   - component: {fileID: 7468159709423758555}
   - component: {fileID: 2156463248741574150}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,7 +89,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2444679711823338752}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -108,6 +108,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleMaterial: {fileID: 2100000, guid: fc6a76c4f48e17d498ea7b4180081ca4, type: 2}
   hitShapeChangeOnHit: {x: -0.05, y: -0.05, z: -0.05}
-  hitDisturbanceRateeOnHit: 5
+  hitDisturbanceRateOnHit: 0
   hitDisturbanceDurationeOnHit: 0.5
   randomShapeChangeOnHit: 0
