@@ -14,18 +14,11 @@ public class ForceBall : Spell
 
     private Transform firePoint;
     private GameObject tmpBall;
-
-
-    private float sizeIncreasePerFrame;
-    private float sizeChangePerSecond = 100f;
-    private bool push;
-    private bool allow;
     private bool holding;
 
 
     private void Start()
     {
-        allow = true;
         holding = false;
     }
 

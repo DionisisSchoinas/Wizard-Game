@@ -2,14 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Firebolt : MonoBehaviour
+public class Firebolt : Spell
 {
+    [SerializeField]
+    private float damage = 15f;
     [SerializeField]
     private float speed = 2f;
     [SerializeField]
-    private GameObject explosion;
-    [SerializeField]
     private Rigidbody rb;
+    [SerializeField]
+    private GameObject explosionParticles;
+
+    private bool allowSpawning;
+    private Transform firePoint;
+
+    private void Start()
+    {
+        allowSpawning = true;
+    }
+
+    public override void FireSimple()
+    {
+        GameObject tmp = Instantiate(gameObject, firePoint.position, firePoint.rotation) as GameObject;
+        tmp.SendMessage("AllowSpawning", false);
+        Destroy(tmp, 5f);
+    }
+
+    public override void SetFirePoint(Transform point)
+    {
+        firePoint = point;
+    }
+
+    public override void WakeUp()
+    {
+        Start();
+    }
+
+    public void AllowSpawning(bool al)
+    {
+        allowSpawning = false;
+    }
 
     void FixedUpdate()
     {
@@ -18,7 +50,13 @@ public class Firebolt : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(Instantiate(explosion, transform.position + transform.forward * 0.2f, transform.rotation), 0.3f);
+        if (collision.transform.CompareTag("Damageable"))
+            collision.transform.SendMessage("Damage", damage);
+        Destroy(Instantiate(explosionParticles, transform.position, transform.rotation), 1f);
         Destroy(gameObject);
+    }
+
+    public override void FireHold(bool holding)
+    {
     }
 }

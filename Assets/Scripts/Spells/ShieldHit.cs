@@ -23,7 +23,7 @@ public class ShieldHit : MonoBehaviour
     private void Start()
     {
         ResetMaterial();
-        Physics.IgnoreLayerCollision(0, 8);
+        Physics.IgnoreLayerCollision(0, 9);
     }
 
     private void OnTriggerEnter(Collider other)

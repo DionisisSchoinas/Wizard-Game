@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4082830920434439420}
   - component: {fileID: 5204361133402161293}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: SteamShot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,5 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 100
-  range: 20
   firedSteam: {fileID: 1735024089641582, guid: 378b2c30ef426554495292cb902cb8f4, type: 3}

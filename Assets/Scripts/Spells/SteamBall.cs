@@ -8,11 +8,8 @@ public class SteamBall : MonoBehaviour
     private Rigidbody rb;
     [SerializeField]
     private GameObject smokeScreen;
-    [SerializeField]
-    private float smokeDuration = 10f;
 
     private float speed = 5f;
-    private GameObject smoke;
 
     public void SetSpeed(float s)
     {
@@ -24,16 +21,9 @@ public class SteamBall : MonoBehaviour
         rb.AddForce((transform.rotation * Vector3.forward) * Time.deltaTime * speed);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        smoke = Instantiate(smokeScreen, transform.position, Quaternion.identity);
-        Invoke(nameof(StopParticles), smokeDuration);
-        Destroy(smoke, smokeDuration+1);
+        Destroy(Instantiate(smokeScreen, transform.position, transform.rotation), 10f);
         Destroy(gameObject);
-    }
-
-    void StopParticles()
-    {
-        smoke.GetComponent<ParticleSystem>().Stop();
     }
 }

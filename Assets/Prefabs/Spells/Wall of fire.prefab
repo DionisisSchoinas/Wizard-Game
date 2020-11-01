@@ -4765,6 +4765,7 @@ GameObject:
   - component: {fileID: 7040329422488220091}
   - component: {fileID: 7040329422488220093}
   - component: {fileID: 7040329422488220092}
+  - component: {fileID: 6471547015152456985}
   m_Layer: 8
   m_Name: Flames
   m_TagString: Untagged
@@ -8490,7 +8491,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -9508,6 +9509,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6471547015152456985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7040329422488220090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec39446b51e8bfc4399c52a036964025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damagePerFrame: 5
 --- !u!1 &7040329422519976411
 GameObject:
   m_ObjectHideFlags: 0
@@ -9517,6 +9531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7040329422519976412}
+  - component: {fileID: 6662070825089805369}
   m_Layer: 8
   m_Name: Wall of fire
   m_TagString: Untagged
@@ -9532,7 +9547,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7040329422519976411}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.27, y: 0, z: -13.7}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7040329421834863774}
@@ -9540,3 +9555,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6662070825089805369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7040329422519976411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a820681a189f9640938dc67a9c5a10a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

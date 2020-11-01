@@ -1710,7 +1710,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1228977892}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: -19.6}
+  m_LocalPosition: {x: -2.54, y: 13.28, z: -38.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1616478074}
@@ -1830,10 +1830,12 @@ MonoBehaviour:
   firePoint: {fileID: 1087586835}
   spells:
   - {fileID: 7047838759429328838, guid: 95c382ab29425d9429f77a5021855fe4, type: 3}
-  - {fileID: 5924011723143038140, guid: f62ce00fab7417b4697e2ace6cba7717, type: 3}
-  - {fileID: 4263688462754129652, guid: d7f943e6f32756945b0304b530b9a78c, type: 3}
-  - {fileID: 7037315135660081557, guid: 92c7ed393ffa8744da7234c0f32aff68, type: 3}
+  - {fileID: 5468378603873797052, guid: f38fc25572ffc0144a78d72bde5d03ff, type: 3}
+  - {fileID: 3956823411663701909, guid: 74e5ae4f22405064e9ef27a7e8e2fc2c, type: 3}
   - {fileID: 5204361133402161293, guid: ac9992798730bbe4b934cbb3402ddafc, type: 3}
+  - {fileID: -4962917080314306125, guid: 69beeab46010fc24d9b263235f1f3f9e, type: 3}
+  - {fileID: 7037315135660081557, guid: 92c7ed393ffa8744da7234c0f32aff68, type: 3}
+  - {fileID: 6662070825089805369, guid: 66f891401d5b028478e8a7d6ca2eeb5f, type: 3}
   marker: {fileID: 6991506000824033268, guid: f01b875b97225e7478af360cf5e86d88, type: 3}
   view: {fileID: 1616478076}
 --- !u!23 &1262758034
