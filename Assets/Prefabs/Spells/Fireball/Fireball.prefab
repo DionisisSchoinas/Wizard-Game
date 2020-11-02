@@ -13270,9 +13270,9 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
+    enabled: 1
     ratio: 0
-    light: {fileID: 0}
+    light: {fileID: 8449720106983743016, guid: 4b2bee2c3fcc73240a61c952dea8c6a5, type: 3}
     randomDistribution: 1
     color: 1
     range: 1
@@ -13280,7 +13280,7 @@ ParticleSystem:
     rangeCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 100
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -13333,7 +13333,7 @@ ParticleSystem:
     intensityCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -13383,7 +13383,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 1
   TrailModule:
     enabled: 0
     mode: 0
@@ -14339,7 +14339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e598547d9c4724688496769a6ac084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionDamage: 25
+  explosionDamage: 35
   speed: 2
   explosion: {fileID: 8289330964062763208, guid: d8abc4cc1a5e0fb4e9232eb5a82a4b94,
     type: 3}

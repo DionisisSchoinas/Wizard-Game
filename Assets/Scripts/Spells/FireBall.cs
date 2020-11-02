@@ -51,7 +51,7 @@ public class Fireball : Spell
     private void OnCollisionEnter(Collision collision)
     {
         GameObject exp = Instantiate(explosion, transform.position + transform.forward * 0.2f, transform.rotation) as GameObject;
-        exp.SendMessage("SetDamage", explosionDamage);
+        exp.transform.SendMessage("SetDamage", explosionDamage);
         Destroy(exp, 1f);
         Destroy(gameObject);
     }
