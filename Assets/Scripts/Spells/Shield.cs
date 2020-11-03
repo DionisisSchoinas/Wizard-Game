@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldHit : MonoBehaviour
+public class Shield : MonoBehaviour
 {
     [SerializeField]
     private Material idleMaterial;
@@ -23,15 +23,11 @@ public class ShieldHit : MonoBehaviour
     private void Start()
     {
         ResetMaterial();
-        Physics.IgnoreLayerCollision(0, 9);
+        Physics.IgnoreLayerCollision(0, 10);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Projectile"))
-        {
-            Damaged();
-        }
     }
 
     public void Damaged()

@@ -7,7 +7,7 @@ public class Firebolt : Spell
     [SerializeField]
     private float damage = 15f;
     [SerializeField]
-    private float speed = 2f;
+    private float speed = 8f;
     [SerializeField]
     private Rigidbody rb;
     [SerializeField]

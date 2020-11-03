@@ -5,9 +5,7 @@ using UnityEngine;
 public class Fireball : Spell
 {
     [SerializeField]
-    private float explosionDamage = 25f;
-    [SerializeField]
-    private float speed = 30f;
+    private float speed = 2f;
     [SerializeField]
     private GameObject explosion;
     [SerializeField]
@@ -51,7 +49,6 @@ public class Fireball : Spell
     private void OnCollisionEnter(Collision collision)
     {
         GameObject exp = Instantiate(explosion, transform.position + transform.forward * 0.2f, transform.rotation) as GameObject;
-        exp.transform.SendMessage("SetDamage", explosionDamage);
         Destroy(exp, 1f);
         Destroy(gameObject);
     }

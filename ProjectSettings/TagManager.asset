@@ -6,9 +6,6 @@ TagManager:
   tags:
   - Ground
   - Damageable
-  - FireWall
-  - Projectile
-  - Shield
   layers:
   - Default
   - TransparentFX
@@ -19,8 +16,8 @@ TagManager:
   - 
   - 
   - Spells
+  - SpellIgnoreLayer
   - Shield
-  - 
   - 
   - 
   - 

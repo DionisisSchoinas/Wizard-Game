@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    private float damage;
-    
-    public void SetDamage(float dmg)
-    {
-        damage = dmg;
-    }
+    [SerializeField]
+    private float damage = 35f;
 
     private void OnTriggerEnter(Collider other)
     {

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2444679711823338755}
   - component: {fileID: 7468159709423758555}
   - component: {fileID: 2156463248741574150}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Shield
-  m_TagString: Shield
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,7 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5110766357730002121}
   - component: {fileID: 1970142939375841900}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point Light Below
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4825526245324225172}
   - component: {fileID: 3942990064105998609}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point Light Above
   m_TagString: Untagged
   m_Icon: {fileID: 0}

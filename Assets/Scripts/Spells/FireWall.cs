@@ -10,6 +10,12 @@ public class Firewall : Spell
     private Transform firePoint;
     private GameObject currentFireWall;
 
+    private void Start()
+    {
+        currentFireWall = Instantiate(gameObject) as GameObject;
+        currentFireWall.SetActive(false);
+    }
+
     public override void SetFirePoint(Transform point)
     {
         firePoint = point;
@@ -18,24 +24,34 @@ public class Firewall : Spell
 
     public override void FireSimple()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
+        if (!currentFireWall.activeInHierarchy)
         {
-            if (currentFireWall != null) Destroy(currentFireWall);
-
-            if (hit.transform.CompareTag("Ground"))
+            RaycastHit hit;
+            if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
             {
-                Vector3 fwd = Camera.main.transform.forward;
-                fwd.y = 0f;
-                currentFireWall = Instantiate(gameObject, hit.normal * transform.localScale.y / 2 + hit.point, Quaternion.LookRotation(fwd));
+                if (hit.transform.CompareTag("Ground"))
+                {
+                    Vector3 fwd = Camera.main.transform.forward;
+                    fwd.y = 0f;
+                    currentFireWall.transform.position = hit.normal * transform.localScale.y / 2 + hit.point;
+                    currentFireWall.transform.rotation = Quaternion.LookRotation(fwd);
+                    currentFireWall.SetActive(true);
+                    Invoke(nameof(DeactivateWall), 10f);
+                }
             }
         }
     }
 
-    public override void FireHold(bool holding)
+    private void DeactivateWall()
     {
+        currentFireWall.SetActive(false);
     }
+
     public override void WakeUp()
+    {
+        Start();
+    }
+    public override void FireHold(bool holding)
     {
     }
 }
