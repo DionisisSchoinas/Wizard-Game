@@ -16,10 +16,6 @@ public class SteamShot : Spell
         firePoint = point;
     }
 
-    public override void WakeUp()
-    {
-    }
-
     public override void FireSimple()
     {
         GameObject tmp = Instantiate(firedSteam, firePoint.position + firePoint.forward * 2f, firePoint.rotation) as GameObject;
@@ -28,6 +24,10 @@ public class SteamShot : Spell
     }
 
     public override void FireHold(bool holding)
+    {
+    }
+
+    public override void WakeUp()
     {
     }
 }

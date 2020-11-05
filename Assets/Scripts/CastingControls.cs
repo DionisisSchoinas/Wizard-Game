@@ -6,8 +6,6 @@ using UnityEngine;
 public class CastingControls : MonoBehaviour
 {
     [SerializeField]
-    private Rigidbody rb;
-    [SerializeField]
     private Wand wand;
     [SerializeField]
     private OverlayController overlayController;

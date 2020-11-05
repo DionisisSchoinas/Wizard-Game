@@ -18,7 +18,7 @@ public class SteamBall : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.AddForce((transform.rotation * Vector3.forward) * Time.deltaTime * speed);
+        rb.AddForce((transform.rotation * Vector3.forward) * Time.deltaTime * speed, ForceMode.VelocityChange);
     }
 
     private void OnCollisionEnter(Collision collision)

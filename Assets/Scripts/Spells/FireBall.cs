@@ -43,7 +43,7 @@ public class Fireball : Spell
 
     void FixedUpdate()
     {
-        rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.Impulse);
+        rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
     }
 
     private void OnCollisionEnter(Collision collision)

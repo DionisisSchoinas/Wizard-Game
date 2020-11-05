@@ -10,7 +10,7 @@ public class LightningStorm : Spell
     private Transform firePoint;
     private GameObject tmpStorm;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         tmpStorm = Instantiate(gameObject) as GameObject;

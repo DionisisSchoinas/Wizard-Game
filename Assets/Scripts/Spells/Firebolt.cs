@@ -13,18 +13,11 @@ public class Firebolt : Spell
     [SerializeField]
     private GameObject explosionParticles;
 
-    private bool allowSpawning;
     private Transform firePoint;
-
-    private void Start()
-    {
-        allowSpawning = true;
-    }
 
     public override void FireSimple()
     {
         GameObject tmp = Instantiate(gameObject, firePoint.position, firePoint.rotation) as GameObject;
-        tmp.SendMessage("AllowSpawning", false);
         Destroy(tmp, 5f);
     }
 
@@ -33,19 +26,9 @@ public class Firebolt : Spell
         firePoint = point;
     }
 
-    public override void WakeUp()
-    {
-        Start();
-    }
-
-    public void AllowSpawning(bool al)
-    {
-        allowSpawning = false;
-    }
-
     void FixedUpdate()
     {
-        rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.Impulse);
+        rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -57,6 +40,10 @@ public class Firebolt : Spell
     }
 
     public override void FireHold(bool holding)
+    {
+    }
+
+    public override void WakeUp()
     {
     }
 }
