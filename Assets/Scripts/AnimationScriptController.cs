@@ -15,25 +15,24 @@ public class AnimationScriptController : MonoBehaviour
     public Transform indicatorWheel;
     public float velocityZ,velocityX;
     public Wand wandScript;
-    PlayerMovementScript playerScript;
+    PlayerMovementScript controls;
     public GameObject fireboltHand;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-        playerScript = player.GetComponent<PlayerMovementScript>();
+        controls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
     }
     
     // Update is called once per frame
     void FixedUpdate()
     {
       
-        Vector3 direction = playerScript.direction;
+        Vector3 direction = controls.direction;
         
-        if (playerScript.isGrounded)
+        if (controls.isGrounded)
         {
-          
             animator.SetBool("IsGrounded", true);
         }
         else
@@ -42,11 +41,11 @@ public class AnimationScriptController : MonoBehaviour
         }
        
         direction = Quaternion.Euler(0, -indicatorWheel.eulerAngles.y, 0) * direction;
-        float velocityRun= ( playerScript.runspeed) / ( playerScript.maxRunSpeed- playerScript.speed);
+        float velocityRun= ( controls.runspeed) / ( controls.maxRunSpeed- controls.speed);
         velocityZ = (direction.z+  velocityRun * direction.z);
         velocityX = (direction.x + velocityRun * direction.x);
 
-        if (!playerScript.lockOn)
+        if (!controls.lockOn)
         {
             fireboltHand.SetActive(false);
             animator.SetLayerWeight(1, 0);
@@ -68,25 +67,24 @@ public class AnimationScriptController : MonoBehaviour
             animator.SetFloat("Velocity Z", velocityZ);
             animator.SetFloat("Velocity X", velocityX);
         }
-    
-        
-            if (Input.GetMouseButtonDown(0) && wandScript.GetCanCast())
-            {
-                animator.SetTrigger("CastBasic");
-                StartCoroutine(cast());
-            }
 
-            if (Input.GetMouseButtonDown(1) && wandScript.GetCanCast())
-            {
-                animator.SetBool("Chanelling", true);
-            }
-            if (Input.GetMouseButtonUp(1))
-            {
-                animator.SetBool("Chanelling", false);
-            }
-        
+        if (controls.mousedown_1)
+        {
+            animator.SetTrigger("CastBasic");
+            StartCoroutine(cast());
+        }
 
-        if (!playerScript.canMove)
+        if (controls.mousedown_2)
+        {
+            animator.SetBool("Chanelling", true);
+        }
+        else if (wandScript.channeling)
+        {
+            animator.SetBool("Chanelling", false);
+        }
+
+
+        if (!controls.canMove)
         {
             Debug.Log("test");
             animator.SetTrigger("HardLanding");
@@ -95,12 +93,9 @@ public class AnimationScriptController : MonoBehaviour
     }
     IEnumerator cast()
     {
-        animator.SetTrigger("CastBasic");
         yield return new WaitForSeconds(0.7f);
         fireboltHand.SetActive(false);
         yield return new WaitForSeconds(1f);
         fireboltHand.SetActive(true);
     }
-
- 
 }

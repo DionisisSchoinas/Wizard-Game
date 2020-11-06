@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,15 +11,20 @@ public class CastingControls : MonoBehaviour
     [SerializeField]
     private OverlayController overlayController;
 
+    private PlayerMovementScript controls;
+
     private bool fire1 = false;
     private bool fire2 = false;
-    private bool menu = false;
 
-    void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        controls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
+    }
+
+    private void FixedUpdate()
+    {
+        if (controls.menu)
         {
-            menu = true;
             overlayController.Enable(true);
             fire1 = false;
             if (fire2)
@@ -27,38 +33,23 @@ public class CastingControls : MonoBehaviour
                 wand.Fire2(false);
             }
         }
-        if (Input.GetKeyUp(KeyCode.LeftAlt))
+        else if (overlayController.isEnabled)
         {
-            menu = false;
             overlayController.Enable(false);
         }
 
 
-        if (!menu)
+        if (!controls.menu)
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                fire1 = true;
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                fire1 = false;
-            }
+            fire1 = controls.mousedown_1;
+            fire2 = controls.mousedown_2;
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                fire2 = true;
-            }
-            else if (Input.GetMouseButtonUp(1))
+            if (!fire2 && wand.channeling)
             {
                 wand.Fire2(false);
-                fire2 = false;
             }
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (fire1)
         {
             wand.Fire1();

@@ -16,10 +16,10 @@ public class Wand : MonoBehaviour
     private Camera view;
 
     public float cooldownTimer = 1f;
+    public bool channeling = false;
+    public bool canCast;
 
     private int selectedSpell;
-    private bool canCast;
-
 
     private void Start()
     {
@@ -45,7 +45,6 @@ public class Wand : MonoBehaviour
     {
         if (canCast)
         {
-
             StartCoroutine(castFire1(cooldownTimer));
         }
     }
@@ -68,20 +67,8 @@ public class Wand : MonoBehaviour
     }
     IEnumerator castFire2(float second, bool holding)
     {
-
         yield return new WaitForSeconds(1.2f);
         spells[selectedSpell].FireHold(holding);
-    }
-
-
-
-    public bool GetCanCast()
-    {
-        return canCast;
-    }
-
-    public void SetCanCast(bool c)
-    {
-        canCast = c;
+        channeling = holding;
     }
 }

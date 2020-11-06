@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerMovementScript : MonoBehaviour
@@ -24,42 +25,90 @@ public class PlayerMovementScript : MonoBehaviour
    
     Vector3 velocity;
 
-
-
-
     public bool isGrounded;
     public bool canMove = true;
     public bool lockOn = false;
+    public bool mousedown_1 = false;
+    public bool mousedown_2 = false;
+    public bool menu = false;
 
-   
+    private float horizontal;
+    private float vertical;
+    private bool running;
+    private bool jump;
+
+    private void Start()
+    {
+        horizontal = 0f;
+        vertical = 0f;
+
+        running = false;
+        jump = false;
+    }
+
+    private void Update()
+    {
+        //get horizontal and vertical axes
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
+
+
+
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            menu = true;
+            StartCoroutine(ReleaseFire_1(1f));
+            mousedown_2 = false;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftAlt))
+        {
+            menu = false;
+        }
+
+        if (!menu)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                mousedown_1 = true;
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                StartCoroutine(ReleaseFire_1(0.8f));
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                mousedown_2 = true;
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                mousedown_2 = false;
+            }
+        }
+
+        running = Input.GetKey(KeyCode.LeftShift);
+        jump = Input.GetButton("Jump");
+
+    }
+
+
     // Update is called once per frame
     void FixedUpdate()
     {
-
-
         //===================GROUND CHECK=================== 
         //check if its close to the ground
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         //Reset the velocity 
-        Debug.Log(velocity.y);
         if (isGrounded && velocity.y < 0)
         {
             if (velocity.y <= -20)
             {
                 StartCoroutine(stun(2f));
             }
-
             velocity.y = -2f;
         }
 
         //===================Movement=================== 
-
-        //get horizontal and vertical axes
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-       
-
         if (canMove)
         {
             //calculate and normalize direction
@@ -71,9 +120,8 @@ public class PlayerMovementScript : MonoBehaviour
             direction = new Vector3(0f, 0f, 0f);
         }
 
-        
 
-        if (Input.GetMouseButton(0))
+        if (mousedown_1)
         {
             lockOn = true;
             if (canMove)
@@ -89,10 +137,8 @@ public class PlayerMovementScript : MonoBehaviour
             if (direction != new Vector3(0, 0, 0)) { transform.rotation = Quaternion.Euler(0f, angle, 0f); }
         }
         
-
-
         //Handles Running
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (running)
         { 
             if (runspeed < maxRunSpeed - speed)
             {
@@ -116,24 +162,19 @@ public class PlayerMovementScript : MonoBehaviour
 
         }
 
-
         //Move player towords direction
         controller.Move(direction * (speed+ runspeed) * Time.deltaTime);
         
-
-      
-       
-        if (Input.GetButton("Jump") && isGrounded)
+        if (jump && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            jump = false;
         }
+
         //apply gravity to velocity 
         velocity.y += gravity * Time.deltaTime;
         //apply velocity to player
         controller.Move(velocity * Time.deltaTime);
-
-       
-        
     }
 
     IEnumerator stun(float second)
@@ -141,5 +182,11 @@ public class PlayerMovementScript : MonoBehaviour
         canMove = false;
         yield return new WaitForSeconds(second);
         canMove = true;
+    }
+
+    IEnumerator ReleaseFire_1(float second)
+    {
+        yield return new WaitForSeconds(second);
+        mousedown_1 = false;
     }
 }

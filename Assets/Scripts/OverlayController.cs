@@ -10,6 +10,8 @@ public class OverlayController : MonoBehaviour
     [SerializeField]
     private Wand wand;
 
+    public bool isEnabled = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,5 +36,6 @@ public class OverlayController : MonoBehaviour
     public void Enable(bool state)
     {
         dropdown.interactable = state;
+        isEnabled = state;
     }
 }
