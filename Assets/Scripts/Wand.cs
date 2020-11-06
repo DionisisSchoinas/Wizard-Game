@@ -13,8 +13,6 @@ public class Wand : MonoBehaviour
     [SerializeField]
     private Spell[] spells;
     [SerializeField]
-    private GameObject marker;
-    [SerializeField]
     private Camera view;
 
     private int selectedSpell;
@@ -29,24 +27,6 @@ public class Wand : MonoBehaviour
         {
             s.SetFirePoint(firePoint);
             s.WakeUp();
-        }
-        mark = Instantiate(marker);
-        mark.GetComponent<MeshRenderer>().enabled = false;
-    }
-
-    private void FixedUpdate()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
-        {
-            mark.GetComponent<MeshRenderer>().enabled = true;
-            ray.origin = view.transform.position;
-            ray.direction = (hit.point - view.transform.position).normalized;
-            mark.transform.position = ray.GetPoint(1);
-        }
-        else
-        {
-            mark.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 

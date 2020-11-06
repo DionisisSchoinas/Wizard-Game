@@ -11,34 +11,17 @@ public class Fireball : Spell
     [SerializeField]
     private Rigidbody rb;
 
-    private bool allowSpawning;
     private Transform firePoint;
-
-    private void Start()
-    {
-        allowSpawning = true;
-    }
 
     public override void FireSimple()
     {
         GameObject tmp = Instantiate(gameObject, firePoint.position, firePoint.rotation) as GameObject;
-        tmp.SendMessage("AllowSpawning", false);
         Destroy(tmp, 5f);
     }
 
     public override void SetFirePoint(Transform point)
     {
         firePoint = point;
-    }
-
-    public override void WakeUp()
-    {
-        Start();
-    }
-
-    public void AllowSpawning(bool al)
-    {
-        allowSpawning = false;
     }
 
     void FixedUpdate()
@@ -53,6 +36,9 @@ public class Fireball : Spell
         Destroy(gameObject);
     }
     public override void FireHold(bool holding)
+    {
+    }
+    public override void WakeUp()
     {
     }
 }
