@@ -15,14 +15,15 @@ public class Wand : MonoBehaviour
     [SerializeField]
     private Camera view;
 
-    private int selectedSpell;
+    public float cooldownTimer = 1f;
 
-    private Ray ray;
-    private GameObject mark;
+    private int selectedSpell;
+    private bool canCast;
 
 
     private void Start()
     {
+        canCast = true;
         foreach (Spell s in spells)
         {
             s.SetFirePoint(firePoint);
@@ -42,11 +43,45 @@ public class Wand : MonoBehaviour
 
     public void Fire1()
     {
-        spells[selectedSpell].FireSimple();
+        if (canCast)
+        {
+
+            StartCoroutine(castFire1(cooldownTimer));
+        }
     }
 
     public void Fire2(bool holding)
     {
+        if (canCast)
+        {
+            StartCoroutine(castFire2(cooldownTimer, holding));
+        }
+
+    }
+    IEnumerator castFire1(float second)
+    {
+        canCast = false;
+        yield return new WaitForSeconds(0.7f);
+        spells[selectedSpell].FireSimple();
+        yield return new WaitForSeconds(second);
+        canCast = true;
+    }
+    IEnumerator castFire2(float second, bool holding)
+    {
+
+        yield return new WaitForSeconds(1.2f);
         spells[selectedSpell].FireHold(holding);
+    }
+
+
+
+    public bool GetCanCast()
+    {
+        return canCast;
+    }
+
+    public void SetCanCast(bool c)
+    {
+        canCast = c;
     }
 }
