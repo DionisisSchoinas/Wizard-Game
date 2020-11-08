@@ -133,6 +133,14 @@ public class PlayerMovementScript : MonoBehaviour
                 transform.rotation = indicatorWheel.rotation;
             }
         }
+        else if (mousedown_2)  // if mouse down OR if already channeling
+        {
+            casting = true;
+            if (canMove)
+            {
+                transform.rotation = indicatorWheel.rotation;
+            }
+        }
         else
         {
             casting = false;

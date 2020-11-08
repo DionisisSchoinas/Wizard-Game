@@ -9,7 +9,8 @@ public class ForceBall : Spell
     [SerializeField]
     private GameObject pushParticles;
 
-    private Transform firePoint;
+    private Transform simpleFirePoint;
+    private Transform channelingFirePoint;
     private GameObject tmpBall;
     private bool holding;
 
@@ -19,10 +20,12 @@ public class ForceBall : Spell
         holding = false;
     }
 
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
+        simpleFirePoint = point1;
+        channelingFirePoint = point2;
     }
+
     public override void WakeUp()
     {
         Start();
@@ -31,9 +34,9 @@ public class ForceBall : Spell
     public override void FireSimple()
     {
         RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
+        if (Physics.Raycast(simpleFirePoint.position, simpleFirePoint.TransformDirection(Vector3.forward), out hit))
         {
-            tmpBall = Instantiate(pushParticles, hit.point, firePoint.rotation) as GameObject;
+            tmpBall = Instantiate(pushParticles, hit.point, simpleFirePoint.rotation) as GameObject;
             Push(Physics.OverlapSphere(hit.point, 10), hit.point);
             Destroy(tmpBall, 1f);
         }
@@ -44,11 +47,11 @@ public class ForceBall : Spell
         if (hold)
         {
             RaycastHit hit;
-            if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
+            if (Physics.Raycast(channelingFirePoint.position, channelingFirePoint.TransformDirection(Vector3.forward), out hit))
             {
                 if (!holding)
                 {
-                    tmpBall = Instantiate(pullParticles, hit.point, firePoint.rotation) as GameObject;
+                    tmpBall = Instantiate(pullParticles, hit.point, channelingFirePoint.rotation) as GameObject;
                 }
                 tmpBall.transform.position = hit.point;
                 Pull(Physics.OverlapSphere(hit.point, 10), hit.point);

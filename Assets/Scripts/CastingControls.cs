@@ -54,7 +54,7 @@ public class CastingControls : MonoBehaviour
             wand.Fire1();
             fire1 = false;
         }
-        if (fire2)
+        if (fire2 && !Wand.channeling)
         {
             wand.Fire2(true);
         }

@@ -9,16 +9,18 @@ public class SteamShot : Spell
     [SerializeField]
     private GameObject firedSteam;
 
-    private Transform firePoint;
+    private Transform simpleFirePoint;
+    private Transform channelingFirePoint;
 
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
+        simpleFirePoint = point1;
+        channelingFirePoint = point2;
     }
 
     public override void FireSimple()
     {
-        GameObject tmp = Instantiate(firedSteam, firePoint.position, firePoint.rotation) as GameObject;
+        GameObject tmp = Instantiate(firedSteam, simpleFirePoint.position, simpleFirePoint.rotation) as GameObject;
         tmp.SendMessage("SetSpeed", speed);
         Destroy(tmp, 5f);
     }

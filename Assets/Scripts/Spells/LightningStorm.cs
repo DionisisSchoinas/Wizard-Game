@@ -13,7 +13,8 @@ public class LightningStorm : Spell
     private bool pickedSpot;
 
     private GameObject tmpMarker;
-
+    private Transform simpleFirePoint;
+    private Transform channelingFirePoint;
 
     void Start()
     {
@@ -25,9 +26,10 @@ public class LightningStorm : Spell
         tmpMarker.SetActive(false);
     }
 
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
+        simpleFirePoint = point1;
+        channelingFirePoint = point2;
     }
 
     public override void WakeUp()

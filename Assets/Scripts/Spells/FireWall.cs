@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class Firewall : Spell
 {
-    private Transform firePoint;
+    private Transform simpleFirePoint;
+    private Transform channelingFirePoint;
     private GameObject currentFireWall;
 
     private void Start()
@@ -16,18 +17,18 @@ public class Firewall : Spell
         currentFireWall.SetActive(false);
     }
 
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
+        simpleFirePoint = point1;
+        channelingFirePoint = point2;
     }
-
 
     public override void FireSimple()
     {
         if (!currentFireWall.activeInHierarchy)
         {
             RaycastHit hit;
-            if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
+            if (Physics.Raycast(simpleFirePoint.position, simpleFirePoint.TransformDirection(Vector3.forward), out hit))
             {
                 if (hit.transform.CompareTag("Ground"))
                 {

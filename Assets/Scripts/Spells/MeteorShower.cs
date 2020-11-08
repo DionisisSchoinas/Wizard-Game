@@ -11,7 +11,8 @@ public class MeteorShower : Spell
     [SerializeField]
     private float projectilesPerSecond;
 
-    private Transform firePoint;
+    private Transform simpleFirePoint;
+    private Transform channelingFirePoint;
     private Vector3 spellLocation;
     private bool fire;
 
@@ -27,9 +28,10 @@ public class MeteorShower : Spell
         Start();
     }
 
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
+        simpleFirePoint = point1;
+        channelingFirePoint = point2;
     }
 
     private void FixedUpdate()
@@ -41,7 +43,7 @@ public class MeteorShower : Spell
         if (!fire)
         {
             RaycastHit hit;
-            if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
+            if (Physics.Raycast(simpleFirePoint.position, simpleFirePoint.TransformDirection(Vector3.forward), out hit))
             {
                 spellLocation = hit.point + Vector3.up * spawningHeight;
                 fire = true;

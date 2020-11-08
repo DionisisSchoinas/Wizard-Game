@@ -13,11 +13,12 @@ public class Fireray : Spell
     private GameObject laser;
 
     private GameObject tmpLaser;
-    private Transform firePoint;
+    private Transform simpleFirePoint;
+    private Transform channelingFirePoint;
 
     void Start()
     {
-        tmpLaser = Instantiate(laser, firePoint) as GameObject;
+        tmpLaser = Instantiate(laser, channelingFirePoint) as GameObject;
         tmpLaser.SetActive(false);
     }
 
@@ -26,11 +27,12 @@ public class Fireray : Spell
         Start();
     }
 
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
+        simpleFirePoint = point1;
+        channelingFirePoint = point2;
     }
-    
+
     public override void FireHold(bool holding)
     {
         if (holding)

@@ -12,21 +12,24 @@ public class Wand : MonoBehaviour
     [SerializeField]
     private AnimationScriptController animationController;
     [SerializeField]
-    private Transform firePoint;
+    private Transform simpleFirePoint;
+    [SerializeField]
+    private Transform channelingFirePoint;
     [SerializeField]
     private Spell[] spells;
 
     //=== Values must be equal with AnimationScriptControler ===
     public float castingAnimationSimple = 0.8f;
     public float castingAnimationSimpleReset = 1.4f;
-    public float castingAnimationChannel = 1.5f;
-    public float castingAnimationChannelReset = 1.5f;
+    public float castingAnimationChannel = 1.3f;
+    public float castingAnimationChannelReset = 1f;
     //=============
     public static bool channeling;
     public static bool castingBasic;
-    public bool canCast;
 
+    private bool canCast;
     private int selectedSpell;
+    private Coroutine runningCoroutine;
 
     private void Start()
     {
@@ -35,7 +38,7 @@ public class Wand : MonoBehaviour
         canCast = true;
         foreach (Spell s in spells)
         {
-            s.SetFirePoint(firePoint);
+            s.SetFirePoints(simpleFirePoint, channelingFirePoint);
             s.WakeUp();
         }
     }
@@ -54,16 +57,22 @@ public class Wand : MonoBehaviour
     {
         if (canCast)
         {
-            animationController.CastBasic(spells[selectedSpell].GetSource());
+            //start playing animation
+            animationController.CastBasic(spells[selectedSpell].GetSource(), castingAnimationSimple, castingAnimationSimpleReset);
+            //start spell attack
             StartCoroutine(castFire1(castingAnimationSimple, castingAnimationSimpleReset));
         }
     }
 
     public void Fire2(bool holding)
     {
-        if (canCast)
+        if (canCast || channeling)
         {
-            StartCoroutine(castFire2( (holding ? castingAnimationChannel : 0), holding));
+            //start playing animation
+            animationController.CastChannel(holding, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);
+            //start spell attack
+            if (runningCoroutine != null) StopCoroutine(runningCoroutine);
+            runningCoroutine = StartCoroutine(castFire2( (holding ? castingAnimationChannel : 0), holding));
         }
 
     }
@@ -79,8 +88,9 @@ public class Wand : MonoBehaviour
     }
     IEnumerator castFire2(float seconds, bool holding)
     {
+        canCast = !holding;
+        channeling = holding;
         yield return new WaitForSeconds(seconds);
         spells[selectedSpell].FireHold(holding);
-        channeling = holding;
     }
 }

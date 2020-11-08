@@ -14,6 +14,8 @@ public class AnimationScriptController : MonoBehaviour
     public Transform indicatorWheel;
     public float velocityZ,velocityX;
     public GameObject handForBasicSpells;
+    public GameObject leftHandForChannelingSpells;
+    public GameObject rightHandForChannelingSpells;
 
     private PlayerMovementScript controls;
     //public GameObject fireboltHand;
@@ -77,34 +79,53 @@ public class AnimationScriptController : MonoBehaviour
         
     }
 
-    public void CastBasic(ParticleSystem source)
+    public void CastBasic(ParticleSystem source, float chargeUp, float reset)
     {
         animator.SetTrigger("CastBasic");
-        StartCoroutine(CastBasicAnimation(source));
+        StartCoroutine(CastBasicAnimation(source, chargeUp, reset));
     }
 
-    public void CastChannel(bool hold)
+    public void CastChannel(bool channeling, ParticleSystem source, float chargeUp, float reset)
     {
-        /*
-        if (controls.mousedown_2)
-        {
-            animator.SetBool("Chanelling", hold);
-        }
-        else if (wandScript.channeling)
-        {
-            animator.SetBool("Chanelling", false);
-        }
-        */
+        animator.SetBool("Chanelling", channeling);
+        StartCoroutine(CastChannelingAnimation(channeling, source, chargeUp, reset));
     }
 
-    IEnumerator CastBasicAnimation(ParticleSystem source)
+    IEnumerator CastBasicAnimation(ParticleSystem source, float chargeUp, float reset)
     {
         allowStopCasting = false;
         ParticleSystem tmp = Instantiate(source, handForBasicSpells.transform);
         tmp.transform.position += Vector3.left * 0.1f;
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(chargeUp);
         Destroy(tmp.gameObject);
-        yield return new WaitForSeconds(1.4f);
+        yield return new WaitForSeconds(reset);
         allowStopCasting = true;
+    }
+
+    IEnumerator CastChannelingAnimation(bool holding, ParticleSystem source, float chargeUp, float reset)
+    {
+        //if starting to channel spell
+        if (holding)
+        {
+            allowStopCasting = false;
+            //create source particle for each hand
+            ParticleSystem[] particles = new ParticleSystem[2];
+            particles[0] = Instantiate(source, leftHandForChannelingSpells.transform);
+            particles[0].transform.position += Vector3.right * 0.1f;
+            particles[1] = Instantiate(source, rightHandForChannelingSpells.transform);
+            particles[1].transform.position += Vector3.left * 0.1f;
+            yield return new WaitForSeconds(chargeUp);
+            //destroy all particles
+            foreach (ParticleSystem pr in particles)
+            {
+                Destroy(pr.gameObject);
+            }
+        }
+        //if finishing channel
+        else
+        {
+            yield return new WaitForSeconds(reset);
+            allowStopCasting = true;
+        }
     }
 }

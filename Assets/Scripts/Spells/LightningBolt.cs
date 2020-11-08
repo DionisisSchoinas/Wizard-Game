@@ -6,13 +6,14 @@ public class LightningBolt : Spell
     [SerializeField]
     private float damagePerFrame = 5f;
 
-    private Transform firePoint;
+    private Transform simpleFirePoint;
+    private Transform channelingFirePoint;
     private GameObject tmpBolt;
     private List<GameObject> collisions;
 
     private void Start()
     {
-        tmpBolt = Instantiate(gameObject, firePoint) as GameObject;
+        tmpBolt = Instantiate(gameObject, channelingFirePoint) as GameObject;
         tmpBolt.SetActive(false);
         collisions = new List<GameObject>();
     }
@@ -38,10 +39,10 @@ public class LightningBolt : Spell
         }
     }
 
-
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
+        simpleFirePoint = point1;
+        channelingFirePoint = point2;
     }
 
     public override void WakeUp()
