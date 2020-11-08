@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Schema;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,20 +10,28 @@ using UnityEngine.UI;
 public class Wand : MonoBehaviour
 {
     [SerializeField]
+    private AnimationScriptController animationController;
+    [SerializeField]
     private Transform firePoint;
     [SerializeField]
     private Spell[] spells;
-    [SerializeField]
-    private Camera view;
 
-    public float cooldownTimer = 1f;
-    public bool channeling = false;
+    //=== Values must be equal with AnimationScriptControler ===
+    public float castingAnimationSimple = 0.8f;
+    public float castingAnimationSimpleReset = 1.4f;
+    public float castingAnimationChannel = 1.5f;
+    public float castingAnimationChannelReset = 1.5f;
+    //=============
+    public static bool channeling;
+    public static bool castingBasic;
     public bool canCast;
 
     private int selectedSpell;
 
     private void Start()
     {
+        castingBasic = false;
+        channeling = false;
         canCast = true;
         foreach (Spell s in spells)
         {
@@ -45,7 +54,8 @@ public class Wand : MonoBehaviour
     {
         if (canCast)
         {
-            StartCoroutine(castFire1(cooldownTimer));
+            animationController.CastBasic(spells[selectedSpell].GetSource());
+            StartCoroutine(castFire1(castingAnimationSimple, castingAnimationSimpleReset));
         }
     }
 
@@ -53,21 +63,23 @@ public class Wand : MonoBehaviour
     {
         if (canCast)
         {
-            StartCoroutine(castFire2(cooldownTimer, holding));
+            StartCoroutine(castFire2( (holding ? castingAnimationChannel : 0), holding));
         }
 
     }
-    IEnumerator castFire1(float second)
+    IEnumerator castFire1(float cast, float reset)
     {
+        castingBasic = true;
         canCast = false;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(cast);
         spells[selectedSpell].FireSimple();
-        yield return new WaitForSeconds(second);
+        yield return new WaitForSeconds(reset);
+        castingBasic = false;
         canCast = true;
     }
-    IEnumerator castFire2(float second, bool holding)
+    IEnumerator castFire2(float seconds, bool holding)
     {
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(seconds);
         spells[selectedSpell].FireHold(holding);
         channeling = holding;
     }

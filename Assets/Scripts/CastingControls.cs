@@ -38,13 +38,12 @@ public class CastingControls : MonoBehaviour
             overlayController.Enable(false);
         }
 
-
         if (!controls.menu)
         {
             fire1 = controls.mousedown_1;
             fire2 = controls.mousedown_2;
 
-            if (!fire2 && wand.channeling)
+            if (!fire2 && Wand.channeling)
             {
                 wand.Fire2(false);
             }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MeteorShower : Spell
 {
@@ -79,4 +77,8 @@ public class MeteorShower : Spell
     {
     }
 
+    public override ParticleSystem GetSource()
+    {
+        return ((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+    }
 }

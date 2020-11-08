@@ -8,4 +8,5 @@ abstract public class Spell : MonoBehaviour
     abstract public void FireHold(bool holding);
     abstract public void SetFirePoint(Transform point);
     abstract public void WakeUp();
+    abstract public ParticleSystem GetSource();
 }

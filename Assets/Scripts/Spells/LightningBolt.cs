@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LightningBolt : Spell
@@ -60,5 +59,10 @@ public class LightningBolt : Spell
     }
     public override void FireSimple()
     {
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return tmpBolt.transform.Find("Source").GetComponent<ParticleSystem>();
     }
 }

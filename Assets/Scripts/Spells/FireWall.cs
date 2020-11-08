@@ -54,4 +54,9 @@ public class Firewall : Spell
     public override void FireHold(bool holding)
     {
     }
+
+    public override ParticleSystem GetSource()
+    {
+        return ((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+    }
 }

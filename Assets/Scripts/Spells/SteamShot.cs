@@ -5,7 +5,7 @@ using UnityEngine;
 public class SteamShot : Spell
 {
     [SerializeField]
-    private float speed = 5f;
+    private float speed = 0f;
     [SerializeField]
     private GameObject firedSteam;
 
@@ -18,7 +18,7 @@ public class SteamShot : Spell
 
     public override void FireSimple()
     {
-        GameObject tmp = Instantiate(firedSteam, firePoint.position + firePoint.forward * 2f, firePoint.rotation) as GameObject;
+        GameObject tmp = Instantiate(firedSteam, firePoint.position, firePoint.rotation) as GameObject;
         tmp.SendMessage("SetSpeed", speed);
         Destroy(tmp, 5f);
     }
@@ -29,5 +29,10 @@ public class SteamShot : Spell
 
     public override void WakeUp()
     {
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ((GameObject)Resources.Load("Spells/Default Smoke Source", typeof(GameObject))).GetComponent<ParticleSystem>();
     }
 }

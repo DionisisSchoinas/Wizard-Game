@@ -4872,6 +4872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawningHeight: 40
+  marker: {fileID: 5400717942181653154, guid: 5fe984c0b5340d84987618aeaa11a277, type: 3}
 --- !u!1 &8692346028337539344
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,4 +46,9 @@ public class Fireray : Spell
     public override void FireSimple()
     {
     }
+
+    public override ParticleSystem GetSource()
+    {
+        return tmpLaser.transform.Find("Source").GetComponent<ParticleSystem>();
+    }
 }

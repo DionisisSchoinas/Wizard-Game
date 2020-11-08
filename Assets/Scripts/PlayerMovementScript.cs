@@ -26,11 +26,11 @@ public class PlayerMovementScript : MonoBehaviour
     Vector3 velocity;
 
     public bool isGrounded;
-    public bool canMove = true;
-    public bool lockOn = false;
-    public bool mousedown_1 = false;
-    public bool mousedown_2 = false;
-    public bool menu = false;
+    public bool canMove;
+    public bool casting;
+    public bool mousedown_1;
+    public bool mousedown_2;
+    public bool menu;
 
     private float horizontal;
     private float vertical;
@@ -39,9 +39,14 @@ public class PlayerMovementScript : MonoBehaviour
 
     private void Start()
     {
+        canMove = true;
+        casting = false;
+        mousedown_1 = false;
+        mousedown_2 = false;
+        menu = false;
+
         horizontal = 0f;
         vertical = 0f;
-
         running = false;
         jump = false;
     }
@@ -52,12 +57,11 @@ public class PlayerMovementScript : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-
-
+        //pciking spell
         if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
             menu = true;
-            StartCoroutine(ReleaseFire_1(1f));
+            mousedown_1 = false;
             mousedown_2 = false;
         }
         else if (Input.GetKeyUp(KeyCode.LeftAlt))
@@ -67,16 +71,17 @@ public class PlayerMovementScript : MonoBehaviour
 
         if (!menu)
         {
-            if (Input.GetMouseButtonDown(0))
+            //casting spells
+            if (Input.GetMouseButtonDown(0) && !mousedown_2)
             {
                 mousedown_1 = true;
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                StartCoroutine(ReleaseFire_1(0.8f));
+                mousedown_1 = false;
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && !mousedown_1)
             {
                 mousedown_2 = true;
             }
@@ -90,7 +95,6 @@ public class PlayerMovementScript : MonoBehaviour
         jump = Input.GetButton("Jump");
 
     }
-
 
     // Update is called once per frame
     void FixedUpdate()
@@ -121,9 +125,9 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
 
-        if (mousedown_1)
+        if (mousedown_1 || Wand.castingBasic)  // if mouse down OR if already firing basic
         {
-            lockOn = true;
+            casting = true;
             if (canMove)
             {
                 transform.rotation = indicatorWheel.rotation;
@@ -131,7 +135,7 @@ public class PlayerMovementScript : MonoBehaviour
         }
         else
         {
-            lockOn = false;
+            casting = false;
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothVelocity, smoothing);
             if (direction != new Vector3(0, 0, 0)) { transform.rotation = Quaternion.Euler(0f, angle, 0f); }
@@ -182,11 +186,5 @@ public class PlayerMovementScript : MonoBehaviour
         canMove = false;
         yield return new WaitForSeconds(second);
         canMove = true;
-    }
-
-    IEnumerator ReleaseFire_1(float second)
-    {
-        yield return new WaitForSeconds(second);
-        mousedown_1 = false;
     }
 }

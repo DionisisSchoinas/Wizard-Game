@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1039960818}
   - component: {fileID: 1039960817}
   m_Layer: 8
-  m_Name: Lightning Source Glow
+  m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9540,7 +9540,7 @@ GameObject:
   - component: {fileID: 4061491429149446613}
   - component: {fileID: 4061491429149446612}
   m_Layer: 8
-  m_Name: Lightning Source Bolts
+  m_Name: Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
+﻿using UnityEngine;
 
 public class ForceBall : Spell
 {
@@ -81,5 +78,10 @@ public class ForceBall : Spell
             if (other.CompareTag("Damageable"))
                 other.GetComponent<Rigidbody>().AddForce((pos - other.transform.position).normalized * force * Time.deltaTime * 100);
         }
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        throw new System.NotImplementedException();
     }
 }
