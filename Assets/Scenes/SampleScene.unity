@@ -3074,6 +3074,7 @@ GameObject:
   - component: {fileID: 845488865}
   - component: {fileID: 845488866}
   - component: {fileID: 845488867}
+  - component: {fileID: 845488868}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3202,6 +3203,7 @@ MonoBehaviour:
   - {fileID: 5204361133402161293, guid: ac9992798730bbe4b934cbb3402ddafc, type: 3}
   - {fileID: -4962917080314306125, guid: 69beeab46010fc24d9b263235f1f3f9e, type: 3}
   - {fileID: 4067347847314189893, guid: ab3e0b10f6e793a4d82b816e4dc849c2, type: 3}
+  - {fileID: 5459350591867277708, guid: b61259fa5924ad24c972ef73e40b0112, type: 3}
   castingAnimationSimple: 0.8
   castingAnimationSimpleReset: 1.4
   castingAnimationChannel: 1.3
@@ -3227,6 +3229,22 @@ MonoBehaviour:
   leftHandForChannelingSpells: {fileID: 551289366}
   rightHandForChannelingSpells: {fileID: 499345725}
   allowStopCasting: 0
+--- !u!114 &845488868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845488860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08713f0e9d75f944f91639afdbcd9c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicator: {fileID: 7416933492823802846, guid: 749b560e098ddfe47b21326b36e50514,
+    type: 3}
+  rangeIndicator: {fileID: 2100000, guid: dbe8b6546accb5f458954f19fc99950f, type: 2}
+  aoeIndicator: {fileID: 2100000, guid: f9b9e6e237f0926479f1a94f1b6f18df, type: 2}
 --- !u!1 &870636726
 GameObject:
   m_ObjectHideFlags: 0

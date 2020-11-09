@@ -11,16 +11,21 @@ public class MeteorShower : Spell
     [SerializeField]
     private float projectilesPerSecond;
 
-    private Transform simpleFirePoint;
-    private Transform channelingFirePoint;
+    private Transform simplefiringPoint;
+    private Transform channelingfiringPoint;
     private Vector3 spellLocation;
-    private bool fire;
+    private bool pickedSpot;
+    private Vector3 spawningLocation;
+    private SpellAOE aoe;
+    private bool firing;
 
     private void Start()
     {
-        fire = false;
         Physics.IgnoreLayerCollision(8, 9);
         Physics.IgnoreLayerCollision(9, 9);
+
+        pickedSpot = false;
+        firing = false;
     }
 
     public override void WakeUp()
@@ -30,32 +35,48 @@ public class MeteorShower : Spell
 
     public override void SetFirePoints(Transform point1, Transform point2)
     {
-        simpleFirePoint = point1;
-        channelingFirePoint = point2;
-    }
-
-    private void FixedUpdate()
-    {
+        simplefiringPoint = point1;
+        channelingfiringPoint = point2;
     }
 
     public override void FireSimple()
     {
-        if (!fire)
+        if (pickedSpot)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(simpleFirePoint.position, simpleFirePoint.TransformDirection(Vector3.forward), out hit))
+            aoe.DestroyIndicator();
+            pickedSpot = false;
+            spellLocation = spawningLocation + Vector3.up * spawningHeight;
+            firing = true;
+            Fire();
+            Invoke(nameof(StopFiring), 10f);
+        }
+    }
+
+    public override void FireHold(bool holding)
+    {
+        if (!firing)
+        {
+            if (holding)
             {
-                spellLocation = hit.point + Vector3.up * spawningHeight;
-                fire = true;
-                Fire();
-                Invoke(nameof(StopFiring), 10f);
+                aoe = FindObjectOfType<SpellAOE>();
+                aoe.SelectLocation(20f, 20f);
+                pickedSpot = false;
+            }
+            else
+            {
+                if (aoe != null)
+                {
+                    spawningLocation = aoe.LockLocation();
+                    pickedSpot = true;
+                    Invoke(nameof(CancelSpell), 5f);
+                }
             }
         }
     }
 
     private void Fire()
     {
-        if (fire)
+        if (firing)
         {
             for (int i=1; i <= projectilesPerSecond; i++)
             {
@@ -72,11 +93,13 @@ public class MeteorShower : Spell
 
     private void StopFiring()
     {
-        fire = false;
+        firing = false;
     }
 
-    public override void FireHold(bool holding)
+    private void CancelSpell()
     {
+        aoe.DestroyIndicator();
+        pickedSpot = false;
     }
 
     public override ParticleSystem GetSource()

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CastingControls : MonoBehaviour
 {

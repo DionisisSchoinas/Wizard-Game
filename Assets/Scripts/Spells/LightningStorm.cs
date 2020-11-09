@@ -5,14 +5,11 @@ public class LightningStorm : Spell
     [SerializeField]
     private float spawningHeight;
 
-    public GameObject marker;
-
-    private Transform firePoint;
     private GameObject tmpStorm;
     private Vector3 spawningLocation;
     private bool pickedSpot;
+    private SpellAOE aoe;
 
-    private GameObject tmpMarker;
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
 
@@ -21,9 +18,6 @@ public class LightningStorm : Spell
         tmpStorm = Instantiate(gameObject) as GameObject;
         tmpStorm.SetActive(false);
         pickedSpot = false;
-
-        tmpMarker = Instantiate(marker) as GameObject;
-        tmpMarker.SetActive(false);
     }
 
     public override void SetFirePoints(Transform point1, Transform point2)
@@ -41,23 +35,11 @@ public class LightningStorm : Spell
     {
         if (pickedSpot)
         {
-            if (!tmpStorm.activeInHierarchy)
-            {
-                /*
-                RaycastHit hit;
-                if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
-                {
-                    tmpStorm.transform.position = hit.point + Vector3.up * spawningHeight;
-                    tmpStorm.SetActive(true);
-                    Invoke(nameof(StopStorm), 10f);
-                }
-                */
-                tmpMarker.SetActive(false);
-                pickedSpot = false;
-                tmpStorm.transform.position = spawningLocation + Vector3.up * spawningHeight;
-                tmpStorm.SetActive(true);
-                Invoke(nameof(StopStorm), 10f);
-            }
+            aoe.DestroyIndicator();
+            pickedSpot = false;
+            tmpStorm.transform.position = spawningLocation + Vector3.up * spawningHeight;
+            tmpStorm.SetActive(true);
+            Invoke(nameof(StopStorm), 10f);
         }
     }
 
@@ -67,22 +49,18 @@ public class LightningStorm : Spell
         {
             if (holding)
             {
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit))
-                {
-                    tmpMarker.SetActive(true);
-                    Vector3 loc = hit.point;
-                    loc.y = 4f;
-                    tmpMarker.transform.position = loc;
-                }
+                aoe = FindObjectOfType<SpellAOE>();
+                aoe.SelectLocation(20f, 10f);
                 pickedSpot = false;
             }
             else
             {
-                Debug.Log("picked");
-                spawningLocation = tmpMarker.transform.position - Vector3.down * 4;
-                pickedSpot = true;
+                if (aoe != null)
+                {
+                    spawningLocation = aoe.LockLocation();
+                    pickedSpot = true;
+                    Invoke(nameof(CancelSpell), 5f);
+                }
             }
         }
     }
@@ -90,6 +68,12 @@ public class LightningStorm : Spell
     private void StopStorm()
     {
         tmpStorm.SetActive(false);
+    }
+
+    private void CancelSpell()
+    {
+        aoe.DestroyIndicator();
+        pickedSpot = false;
     }
 
     public override ParticleSystem GetSource()

@@ -76,6 +76,7 @@ public class Wand : MonoBehaviour
         }
 
     }
+
     IEnumerator castFire1(float cast, float reset)
     {
         castingBasic = true;

@@ -45,6 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meteorPrefab: {fileID: 1673208174919109818, guid: 44bef29e183e002458bb3d7045632bdb,
     type: 3}
-  spawningRadius: 5
+  spawningRadius: 1
   spawningHeight: 60
   projectilesPerSecond: 5
