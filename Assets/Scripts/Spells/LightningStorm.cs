@@ -50,14 +50,14 @@ public class LightningStorm : Spell
             if (holding)
             {
                 aoe = FindObjectOfType<SpellAOE>();
-                aoe.SelectLocation(20f, 10f);
+                aoe.SelectLocation(20f, 15f);
                 pickedSpot = false;
             }
             else
             {
                 if (aoe != null)
                 {
-                    spawningLocation = aoe.LockLocation();
+                    spawningLocation = aoe.LockLocation()[0];
                     pickedSpot = true;
                     Invoke(nameof(CancelSpell), 5f);
                 }

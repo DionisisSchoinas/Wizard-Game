@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AOE Indicator Circle
+  m_Name: Range Circle Indicator Material
   m_Shader: {fileID: -6465566751694194690, guid: f36287b0c7f5cb64e9410c8dd5602941,
     type: 3}
   m_ShaderKeywords: 
@@ -20,8 +20,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_49C40DF6:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_A6988387:
-        m_Texture: {fileID: 2800000, guid: 073cfeffeba32224cafc99de55b68f93, type: 3}
+        m_Texture: {fileID: 2800000, guid: ed6d870bb1d35674d80dc0362bcf4f63, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -53,7 +57,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_AEA5D429: 0
+    - Vector1_23424989: 0.9
+    - Vector1_3D839E5B: 0
+    - Vector1_90CCD082: 0.8
+    - Vector1_AEA5D429: -4.91
     - Vector1_B26BD09B: 0.02
     - Vector1_B9E9879E: 0.9
     - _AlphaClip: 0
@@ -78,7 +85,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_84431A79: {r: 0.6597539, g: 0.007761811, b: 0, a: 0}
+    - Color_84431A79: {r: 2.1185474, g: 1.0648196, b: 0.29948053, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

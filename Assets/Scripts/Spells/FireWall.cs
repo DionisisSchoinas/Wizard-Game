@@ -10,11 +10,16 @@ public class Firewall : Spell
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
     private GameObject currentFireWall;
+    private Vector3 spawningLocation;
+    private Vector3 spellRotation;
+    private bool pickedSpot;
+    private SpellAOE aoe;
 
     private void Start()
     {
         currentFireWall = Instantiate(gameObject) as GameObject;
         currentFireWall.SetActive(false);
+        pickedSpot = false;
     }
 
     public override void SetFirePoints(Transform point1, Transform point2)
@@ -25,19 +30,35 @@ public class Firewall : Spell
 
     public override void FireSimple()
     {
+        if (pickedSpot)
+        {
+            aoe.DestroyIndicator();
+            pickedSpot = false;
+            currentFireWall.transform.position = Vector3.up * transform.localScale.y / 2 + spawningLocation;
+            currentFireWall.transform.eulerAngles = spellRotation;
+            currentFireWall.SetActive(true);
+            Invoke(nameof(DeactivateWall), 10f);
+        }
+    }
+
+    public override void FireHold(bool holding)
+    {
         if (!currentFireWall.activeInHierarchy)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(simpleFirePoint.position, simpleFirePoint.TransformDirection(Vector3.forward), out hit))
+            if (holding)
             {
-                if (hit.transform.CompareTag("Ground"))
+                aoe = FindObjectOfType<SpellAOE>();
+                aoe.SelectLocation(20f, 24f, 4f);
+                pickedSpot = false;
+            }
+            else
+            {
+                if (aoe != null)
                 {
-                    Vector3 fwd = Camera.main.transform.forward;
-                    fwd.y = 0f;
-                    currentFireWall.transform.position = hit.normal * transform.localScale.y / 2 + hit.point;
-                    currentFireWall.transform.rotation = Quaternion.LookRotation(fwd);
-                    currentFireWall.SetActive(true);
-                    Invoke(nameof(DeactivateWall), 10f);
+                    spawningLocation = aoe.LockLocation()[0];
+                    spellRotation = aoe.LockLocation()[1];
+                    pickedSpot = true;
+                    Invoke(nameof(CancelSpell), 5f);
                 }
             }
         }
@@ -52,8 +73,11 @@ public class Firewall : Spell
     {
         Start();
     }
-    public override void FireHold(bool holding)
+
+    private void CancelSpell()
     {
+        aoe.DestroyIndicator();
+        pickedSpot = false;
     }
 
     public override ParticleSystem GetSource()

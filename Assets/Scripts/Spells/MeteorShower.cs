@@ -66,7 +66,7 @@ public class MeteorShower : Spell
             {
                 if (aoe != null)
                 {
-                    spawningLocation = aoe.LockLocation();
+                    spawningLocation = aoe.LockLocation()[0];
                     pickedSpot = true;
                     Invoke(nameof(CancelSpell), 5f);
                 }

@@ -16,6 +16,8 @@ public class Fireray : Spell
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
 
+    private SpellAOE aoe;
+
     void Start()
     {
         tmpLaser = Instantiate(laser, channelingFirePoint) as GameObject;
@@ -37,10 +39,13 @@ public class Fireray : Spell
     {
         if (holding)
         {
+            aoe = FindObjectOfType<SpellAOE>();
+            aoe.SelectLocation(channelingFirePoint, 3f, 15f);
             tmpLaser.SetActive(true);
         }
         else
         {
+            aoe.DestroyIndicator();
             tmpLaser.SetActive(false);
         }
     }
