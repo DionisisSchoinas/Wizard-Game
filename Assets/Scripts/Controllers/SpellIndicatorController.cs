@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.GameCenter;
 
-public class SpellAOE : MonoBehaviour
+public class SpellIndicatorController : MonoBehaviour
 {
     public GameObject indicator;
     public Material rangeCircleMaterial;

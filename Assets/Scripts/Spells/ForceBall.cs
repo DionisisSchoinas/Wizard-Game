@@ -14,6 +14,8 @@ public class ForceBall : Spell
     private GameObject tmpBall;
     private bool holding;
 
+    private SpellIndicatorController indicatorController;
+
 
     private void Start()
     {
@@ -81,6 +83,11 @@ public class ForceBall : Spell
             if (other.CompareTag("Damageable"))
                 other.GetComponent<Rigidbody>().AddForce((pos - other.transform.position).normalized * force * Time.deltaTime * 100);
         }
+    }
+
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
     }
 
     public override ParticleSystem GetSource()

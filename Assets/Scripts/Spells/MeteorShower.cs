@@ -16,7 +16,7 @@ public class MeteorShower : Spell
     private Vector3 spellLocation;
     private bool pickedSpot;
     private Vector3 spawningLocation;
-    private SpellAOE aoe;
+    private SpellIndicatorController indicatorController;
     private bool firing;
 
     private void Start()
@@ -43,7 +43,7 @@ public class MeteorShower : Spell
     {
         if (pickedSpot)
         {
-            aoe.DestroyIndicator();
+            indicatorController.DestroyIndicator();
             pickedSpot = false;
             spellLocation = spawningLocation + Vector3.up * spawningHeight;
             firing = true;
@@ -58,15 +58,14 @@ public class MeteorShower : Spell
         {
             if (holding)
             {
-                aoe = FindObjectOfType<SpellAOE>();
-                aoe.SelectLocation(20f, 20f);
+                indicatorController.SelectLocation(20f, 20f);
                 pickedSpot = false;
             }
             else
             {
-                if (aoe != null)
+                if (indicatorController != null)
                 {
-                    spawningLocation = aoe.LockLocation()[0];
+                    spawningLocation = indicatorController.LockLocation()[0];
                     pickedSpot = true;
                     Invoke(nameof(CancelSpell), 5f);
                 }
@@ -98,8 +97,12 @@ public class MeteorShower : Spell
 
     private void CancelSpell()
     {
-        aoe.DestroyIndicator();
+        indicatorController.DestroyIndicator();
         pickedSpot = false;
+    }
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
     }
 
     public override ParticleSystem GetSource()

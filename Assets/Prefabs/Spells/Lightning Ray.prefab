@@ -4871,8 +4871,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 0.5
+      scalar: 0.5
+      minScalar: 0.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -19105,7 +19105,7 @@ GameObject:
   - component: {fileID: 4061491430522058730}
   - component: {fileID: -4962917080314306125}
   m_Layer: 8
-  m_Name: Lightning
+  m_Name: Lightning Ray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

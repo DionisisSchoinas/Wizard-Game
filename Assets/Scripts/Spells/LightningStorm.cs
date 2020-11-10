@@ -8,7 +8,7 @@ public class LightningStorm : Spell
     private GameObject tmpStorm;
     private Vector3 spawningLocation;
     private bool pickedSpot;
-    private SpellAOE aoe;
+    private SpellIndicatorController indicatorController;
 
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
@@ -35,7 +35,7 @@ public class LightningStorm : Spell
     {
         if (pickedSpot)
         {
-            aoe.DestroyIndicator();
+            indicatorController.DestroyIndicator();
             pickedSpot = false;
             tmpStorm.transform.position = spawningLocation + Vector3.up * spawningHeight;
             tmpStorm.SetActive(true);
@@ -49,15 +49,14 @@ public class LightningStorm : Spell
         {
             if (holding)
             {
-                aoe = FindObjectOfType<SpellAOE>();
-                aoe.SelectLocation(20f, 15f);
+                indicatorController.SelectLocation(20f, 15f);
                 pickedSpot = false;
             }
             else
             {
-                if (aoe != null)
+                if (indicatorController != null)
                 {
-                    spawningLocation = aoe.LockLocation()[0];
+                    spawningLocation = indicatorController.LockLocation()[0];
                     pickedSpot = true;
                     Invoke(nameof(CancelSpell), 5f);
                 }
@@ -72,8 +71,12 @@ public class LightningStorm : Spell
 
     private void CancelSpell()
     {
-        aoe.DestroyIndicator();
+        indicatorController.DestroyIndicator();
         pickedSpot = false;
+    }
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
     }
 
     public override ParticleSystem GetSource()

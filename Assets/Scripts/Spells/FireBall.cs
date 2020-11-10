@@ -15,6 +15,8 @@ public class Fireball : Spell
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
 
+    private SpellIndicatorController indicatorController;
+
     public override void FireSimple()
     {
         GameObject tmp = Instantiate(gameObject, simpleFirePoint.position, simpleFirePoint.rotation) as GameObject;
@@ -43,6 +45,11 @@ public class Fireball : Spell
         GameObject tmp = Instantiate(gameObject, Vector3.up * 1000, Quaternion.identity) as GameObject;
         Destroy(tmp, 0.1f);
         return tmp.transform.Find("Source").GetComponent<ParticleSystem>();
+    }
+
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
     }
 
     public override void FireHold(bool holding)

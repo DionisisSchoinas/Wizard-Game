@@ -11,6 +11,8 @@ public class LightningBolt : Spell
     private GameObject tmpBolt;
     private List<GameObject> collisions;
 
+    private SpellIndicatorController indicatorController;
+
     private void Start()
     {
         tmpBolt = Instantiate(gameObject, channelingFirePoint) as GameObject;
@@ -31,10 +33,12 @@ public class LightningBolt : Spell
     {
         if (holding)
         {
+            indicatorController.SelectLocation(channelingFirePoint, 3f, 18f);
             tmpBolt.SetActive(true);
         }
         else
         {
+            indicatorController.DestroyIndicator();
             tmpBolt.SetActive(false);
         }
     }
@@ -58,12 +62,18 @@ public class LightningBolt : Spell
                 collisions.Add(other);
         }
     }
-    public override void FireSimple()
+
+    public override void SetIndicatorController(SpellIndicatorController controller)
     {
+        indicatorController = controller;
     }
 
     public override ParticleSystem GetSource()
     {
         return tmpBolt.transform.Find("Source").GetComponent<ParticleSystem>();
+    }
+
+    public override void FireSimple()
+    {
     }
 }

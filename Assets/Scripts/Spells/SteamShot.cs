@@ -12,6 +12,8 @@ public class SteamShot : Spell
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
 
+    private SpellIndicatorController indicatorController;
+
     public override void SetFirePoints(Transform point1, Transform point2)
     {
         simpleFirePoint = point1;
@@ -23,6 +25,10 @@ public class SteamShot : Spell
         GameObject tmp = Instantiate(firedSteam, simpleFirePoint.position, simpleFirePoint.rotation) as GameObject;
         tmp.SendMessage("SetSpeed", speed);
         Destroy(tmp, 5f);
+    }
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
     }
 
     public override void FireHold(bool holding)

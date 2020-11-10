@@ -16,7 +16,7 @@ public class Fireray : Spell
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
 
-    private SpellAOE aoe;
+    private SpellIndicatorController indicatorController;
 
     void Start()
     {
@@ -39,13 +39,12 @@ public class Fireray : Spell
     {
         if (holding)
         {
-            aoe = FindObjectOfType<SpellAOE>();
-            aoe.SelectLocation(channelingFirePoint, 3f, 15f);
+            indicatorController.SelectLocation(channelingFirePoint, 3f, 18f);
             tmpLaser.SetActive(true);
         }
         else
         {
-            aoe.DestroyIndicator();
+            indicatorController.DestroyIndicator();
             tmpLaser.SetActive(false);
         }
     }
@@ -57,5 +56,9 @@ public class Fireray : Spell
     public override ParticleSystem GetSource()
     {
         return tmpLaser.transform.Find("Source").GetComponent<ParticleSystem>();
+    }
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
     }
 }

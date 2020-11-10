@@ -3184,6 +3184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationController: {fileID: 845488867}
+  indicatorController: {fileID: 845488868}
   simpleFirePoint: {fileID: 36478344}
   channelingFirePoint: {fileID: 1300258942}
   spells:
@@ -3229,7 +3230,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 845488860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08713f0e9d75f944f91639afdbcd9c58, type: 3}
+  m_Script: {fileID: 11500000, guid: b7ae87e266a8b104fbe3be12eaab613f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 7416933492823802846, guid: 749b560e098ddfe47b21326b36e50514,

@@ -13,7 +13,7 @@ public class Firewall : Spell
     private Vector3 spawningLocation;
     private Vector3 spellRotation;
     private bool pickedSpot;
-    private SpellAOE aoe;
+    private SpellIndicatorController indicatorController;
 
     private void Start()
     {
@@ -32,7 +32,7 @@ public class Firewall : Spell
     {
         if (pickedSpot)
         {
-            aoe.DestroyIndicator();
+            indicatorController.DestroyIndicator();
             pickedSpot = false;
             currentFireWall.transform.position = Vector3.up * transform.localScale.y / 2 + spawningLocation;
             currentFireWall.transform.eulerAngles = spellRotation;
@@ -47,16 +47,15 @@ public class Firewall : Spell
         {
             if (holding)
             {
-                aoe = FindObjectOfType<SpellAOE>();
-                aoe.SelectLocation(20f, 24f, 4f);
+                indicatorController.SelectLocation(20f, 24f, 4f);
                 pickedSpot = false;
             }
             else
             {
-                if (aoe != null)
+                if (indicatorController != null)
                 {
-                    spawningLocation = aoe.LockLocation()[0];
-                    spellRotation = aoe.LockLocation()[1];
+                    spawningLocation = indicatorController.LockLocation()[0];
+                    spellRotation = indicatorController.LockLocation()[1];
                     pickedSpot = true;
                     Invoke(nameof(CancelSpell), 5f);
                 }
@@ -76,12 +75,17 @@ public class Firewall : Spell
 
     private void CancelSpell()
     {
-        aoe.DestroyIndicator();
+        indicatorController.DestroyIndicator();
         pickedSpot = false;
     }
 
     public override ParticleSystem GetSource()
     {
         return ((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+    }
+
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
     }
 }
