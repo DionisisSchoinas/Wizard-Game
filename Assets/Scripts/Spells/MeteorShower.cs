@@ -21,8 +21,8 @@ public class MeteorShower : Spell
 
     private void Start()
     {
-        Physics.IgnoreLayerCollision(8, 9);
-        Physics.IgnoreLayerCollision(9, 9);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Spells"), LayerMask.NameToLayer("SpellIgnoreLayer"));
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("SpellIgnoreLayer"), LayerMask.NameToLayer("SpellIgnoreLayer"));
 
         pickedSpot = false;
         firing = false;

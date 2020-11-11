@@ -23,7 +23,7 @@ public class Shield : MonoBehaviour
     private void Start()
     {
         ResetMaterial();
-        Physics.IgnoreLayerCollision(0, 10);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), LayerMask.NameToLayer("Shield"));
     }
 
     private void OnTriggerEnter(Collider other)
