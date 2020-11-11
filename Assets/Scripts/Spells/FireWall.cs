@@ -7,36 +7,57 @@ using UnityEngine;
 
 public class Firewall : Spell
 {
-    private Transform firePoint;
+    private Transform simpleFirePoint;
+    private Transform channelingFirePoint;
     private GameObject currentFireWall;
+    private Vector3 spawningLocation;
+    private Vector3 spellRotation;
+    private bool pickedSpot;
+    private SpellIndicatorController indicatorController;
 
     private void Start()
     {
         currentFireWall = Instantiate(gameObject) as GameObject;
         currentFireWall.SetActive(false);
+        pickedSpot = false;
     }
 
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
+        simpleFirePoint = point1;
+        channelingFirePoint = point2;
     }
-
 
     public override void FireSimple()
     {
+        if (pickedSpot)
+        {
+            indicatorController.DestroyIndicator();
+            pickedSpot = false;
+            currentFireWall.transform.position = Vector3.up * transform.localScale.y / 2 + spawningLocation;
+            currentFireWall.transform.eulerAngles = spellRotation;
+            currentFireWall.SetActive(true);
+            Invoke(nameof(DeactivateWall), 10f);
+        }
+    }
+
+    public override void FireHold(bool holding)
+    {
         if (!currentFireWall.activeInHierarchy)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
+            if (holding)
             {
-                if (hit.transform.CompareTag("Ground"))
+                indicatorController.SelectLocation(20f, 24f, 4f);
+                pickedSpot = false;
+            }
+            else
+            {
+                if (indicatorController != null)
                 {
-                    Vector3 fwd = Camera.main.transform.forward;
-                    fwd.y = 0f;
-                    currentFireWall.transform.position = hit.normal * transform.localScale.y / 2 + hit.point;
-                    currentFireWall.transform.rotation = Quaternion.LookRotation(fwd);
-                    currentFireWall.SetActive(true);
-                    Invoke(nameof(DeactivateWall), 10f);
+                    spawningLocation = indicatorController.LockLocation()[0];
+                    spellRotation = indicatorController.LockLocation()[1];
+                    pickedSpot = true;
+                    Invoke(nameof(CancelSpell), 5f);
                 }
             }
         }
@@ -51,7 +72,20 @@ public class Firewall : Spell
     {
         Start();
     }
-    public override void FireHold(bool holding)
+
+    private void CancelSpell()
     {
+        indicatorController.DestroyIndicator();
+        pickedSpot = false;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+    }
+
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
     }
 }

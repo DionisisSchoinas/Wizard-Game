@@ -6,6 +6,8 @@ abstract public class Spell : MonoBehaviour
 {
     abstract public void FireSimple();
     abstract public void FireHold(bool holding);
-    abstract public void SetFirePoint(Transform point);
+    abstract public void SetFirePoints(Transform point1, Transform point2);
+    abstract public void SetIndicatorController(SpellIndicatorController controller);
     abstract public void WakeUp();
+    abstract public ParticleSystem GetSource();
 }

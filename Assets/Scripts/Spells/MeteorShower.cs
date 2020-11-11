@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MeteorShower : Spell
 {
@@ -13,15 +11,21 @@ public class MeteorShower : Spell
     [SerializeField]
     private float projectilesPerSecond;
 
-    private Transform firePoint;
+    private Transform simplefiringPoint;
+    private Transform channelingfiringPoint;
     private Vector3 spellLocation;
-    private bool fire;
+    private bool pickedSpot;
+    private Vector3 spawningLocation;
+    private SpellIndicatorController indicatorController;
+    private bool firing;
 
     private void Start()
     {
-        fire = false;
-        Physics.IgnoreLayerCollision(8, 9);
-        Physics.IgnoreLayerCollision(9, 9);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Spells"), LayerMask.NameToLayer("SpellIgnoreLayer"));
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("SpellIgnoreLayer"), LayerMask.NameToLayer("SpellIgnoreLayer"));
+
+        pickedSpot = false;
+        firing = false;
     }
 
     public override void WakeUp()
@@ -29,33 +33,49 @@ public class MeteorShower : Spell
         Start();
     }
 
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
-    }
-
-    private void FixedUpdate()
-    {
+        simplefiringPoint = point1;
+        channelingfiringPoint = point2;
     }
 
     public override void FireSimple()
     {
-        if (!fire)
+        if (pickedSpot)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
+            indicatorController.DestroyIndicator();
+            pickedSpot = false;
+            spellLocation = spawningLocation + Vector3.up * spawningHeight;
+            firing = true;
+            Fire();
+            Invoke(nameof(StopFiring), 10f);
+        }
+    }
+
+    public override void FireHold(bool holding)
+    {
+        if (!firing)
+        {
+            if (holding)
             {
-                spellLocation = hit.point + Vector3.up * spawningHeight;
-                fire = true;
-                Fire();
-                Invoke(nameof(StopFiring), 10f);
+                indicatorController.SelectLocation(20f, 20f);
+                pickedSpot = false;
+            }
+            else
+            {
+                if (indicatorController != null)
+                {
+                    spawningLocation = indicatorController.LockLocation()[0];
+                    pickedSpot = true;
+                    Invoke(nameof(CancelSpell), 5f);
+                }
             }
         }
     }
 
     private void Fire()
     {
-        if (fire)
+        if (firing)
         {
             for (int i=1; i <= projectilesPerSecond; i++)
             {
@@ -72,11 +92,21 @@ public class MeteorShower : Spell
 
     private void StopFiring()
     {
-        fire = false;
+        firing = false;
     }
 
-    public override void FireHold(bool holding)
+    private void CancelSpell()
     {
+        indicatorController.DestroyIndicator();
+        pickedSpot = false;
+    }
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
     }
 
+    public override ParticleSystem GetSource()
+    {
+        return ((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+    }
 }

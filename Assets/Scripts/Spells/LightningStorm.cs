@@ -1,25 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LightningStorm : Spell
 {
     [SerializeField]
     private float spawningHeight;
 
-    private Transform firePoint;
     private GameObject tmpStorm;
+    private Vector3 spawningLocation;
+    private bool pickedSpot;
+    private SpellIndicatorController indicatorController;
 
+    private Transform simpleFirePoint;
+    private Transform channelingFirePoint;
 
     void Start()
     {
         tmpStorm = Instantiate(gameObject) as GameObject;
         tmpStorm.SetActive(false);
+        pickedSpot = false;
     }
 
-    public override void SetFirePoint(Transform point)
+    public override void SetFirePoints(Transform point1, Transform point2)
     {
-        firePoint = point;
+        simpleFirePoint = point1;
+        channelingFirePoint = point2;
     }
 
     public override void WakeUp()
@@ -29,14 +33,33 @@ public class LightningStorm : Spell
 
     public override void FireSimple()
     {
+        if (pickedSpot)
+        {
+            indicatorController.DestroyIndicator();
+            pickedSpot = false;
+            tmpStorm.transform.position = spawningLocation + Vector3.up * spawningHeight;
+            tmpStorm.SetActive(true);
+            Invoke(nameof(StopStorm), 10f);
+        }
+    }
+
+    public override void FireHold(bool holding)
+    {
         if (!tmpStorm.activeInHierarchy)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit))
+            if (holding)
             {
-                tmpStorm.transform.position = hit.point + Vector3.up * spawningHeight;
-                tmpStorm.SetActive(true);
-                Invoke(nameof(StopStorm), 10f);
+                indicatorController.SelectLocation(20f, 15f);
+                pickedSpot = false;
+            }
+            else
+            {
+                if (indicatorController != null)
+                {
+                    spawningLocation = indicatorController.LockLocation()[0];
+                    pickedSpot = true;
+                    Invoke(nameof(CancelSpell), 5f);
+                }
             }
         }
     }
@@ -46,7 +69,18 @@ public class LightningStorm : Spell
         tmpStorm.SetActive(false);
     }
 
-    public override void FireHold(bool holding)
+    private void CancelSpell()
     {
+        indicatorController.DestroyIndicator();
+        pickedSpot = false;
+    }
+    public override void SetIndicatorController(SpellIndicatorController controller)
+    {
+        indicatorController = controller;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ((GameObject)Resources.Load("Spells/Default Lightning Source", typeof(GameObject))).GetComponent<ParticleSystem>();
     }
 }
